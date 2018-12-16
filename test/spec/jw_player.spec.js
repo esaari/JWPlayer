@@ -49,7 +49,7 @@ const newPlayerHeight = helper.generateResolution().height;
 const newTitle = "Eric's Video Player " + newPlayerWidth + " x " + newPlayerHeight;
 
 describe("JWPlayer test", () => {
-    test("logs into dashboard", async () => {
+    test("Logs into dashboard", async () => {
         await page.goto(dashboardSignIn.URI);
         await page.waitForSelector(dashboardSignIn.selectors.email);
         await page.type(dashboardSignIn.selectors.email, dashboardLogin.email);
@@ -58,14 +58,15 @@ describe("JWPlayer test", () => {
         await page.waitForSelector(playerList.NavBar.selectors.playerListLink);
     }, 20000);
 
-    test("clicks on players link and goes to player builder page", async () => {
+    test("Clicks on players link and goes to player builder page", async () => {
         await page.click(playerList.NavBar.selectors.playerListLink);
         await page.waitForSelector(playerList.selectors.firstRowPlayerLink);
         await page.click(playerList.selectors.firstRowPlayerLink);
-        await page.waitForSelector("#player-name");
+        await page.waitForSelector(playerBuilder.selectors.formFields.playerNameTextField);
     }, 20000);
 
-    test("renames the player, changes aspect ration and saves changes", async() => {
+    test("Renames the player, changes aspect ration and saves changes", async() => {
+        //Clear all text fields of placeholder text
         await helper.clearTextFields(page, Object.values(playerBuilder.selectors.formFields));
         await page.type(playerBuilder.selectors.formFields.playerNameTextField, newTitle);
         await page.click(playerBuilder.selectors.fixedSizeRadioButton);
@@ -75,11 +76,12 @@ describe("JWPlayer test", () => {
         await page.waitForSelector(playerBuilder.header.selectors.successNotification);
     }, 20000);
 
-    test("closes player builder page and verifies the changed name and player aspect ratio", async() => {
+    test("Closes player builder page and verifies the changed name and player aspect ratio", async() => {
         await page.click(playerBuilder.header.selectors.closePlayerButton);
         await page.waitForSelector(playerList.selectors.firstRowPlayerLink);
         const savedTitle = await helper.getInnerText(page, playerList.selectors.firstRowPlayerLink);
         const savedResolution = await helper.getInnerText(page, playerList.selectors.firstRowResolution);
+        //assertions
             expect(savedTitle).toBe(newTitle);
             expect(newPlayerWidth + " x " + newPlayerHeight).toBe(savedResolution);
         await page.screenshot({ path: 'myscreenshot.png', fullPage: true });
