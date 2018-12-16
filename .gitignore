@@ -62,3 +62,7 @@ typings/
 
 #IntelliJ
 .idea/*
+
+.DStore
+
+.iml
