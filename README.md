@@ -5,10 +5,10 @@ It is assumed that this will be run on a MacOS platform with Homebrew installed.
 
 Usage:
 ```
-$brew install node
-$brew install npm
+> brew install node
+> npm install
 
-$npm i jest-puppeteer
-$npm test
+To run tests:
+> npm test
 
 ```
